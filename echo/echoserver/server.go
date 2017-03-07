@@ -6,17 +6,17 @@ import (
 	"net"
 )
 
-// Server is a TCP echo implementation of the
+// Server is an echo implementation of the
 // caddy.Server interface type
 type Server struct {
-	Port     string
+	TCPPort  string
 	listener net.Listener
 }
 
-// NewServer returns a new tcpecho server
+// NewServer returns a new echo server
 func NewServer(p string) (*Server, error) {
 	return &Server{
-		Port: p,
+		TCPPort: p,
 	}, nil
 }
 
@@ -24,7 +24,7 @@ func NewServer(p string) (*Server, error) {
 // and returning it. It does not start accepting
 // connections.
 func (s *Server) Listen() (net.Listener, error) {
-	return net.Listen("tcp", fmt.Sprintf(".:%s", s.Port))
+	return net.Listen("tcp", fmt.Sprintf(":%s", s.TCPPort))
 }
 
 // Serve starts serving using the provided listener.
@@ -55,5 +55,5 @@ func (s *Server) ServePacket(net.PacketConn) error { return nil }
 // OnStartupComplete lists the sites served by this server
 // and any relevant information
 func (s *Server) OnStartupComplete() {
-	fmt.Println("OnStartupComplete:", s.Port)
+	fmt.Println("OnStartupComplete:", s.TCPPort)
 }
